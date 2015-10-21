@@ -26,10 +26,16 @@ XML configuration/mapping file and be done with it, once the application itself 
 ## Prerequisits / Recommended tools
 If you're working with the SDE, you're obviously using one version of Microsoft's SQL Server. If you're just starting with EVE's database 
 and are in need of an SQL Server: MS provides its Express editions of their [SQL Server for free](http://www.microsoft.com/en-us/server-cloud/products/sql-server-editions/sql-server-express.aspx). 
-While you're there, you shouls also grab a copy of the SQL Server Management Studio (also free).
+While you're there, you should also grab a copy of the SQL Server Management Studio (also free).
 
 As CCP moves more and more data out of the SDE into various other data sources (YAML, SQLite), you might want to grab a copy of Desmont McCallock's 
 _(of EVEMon)_ [SDEExternalsToSql](https://forums.eveonline.com/default.aspx?g=posts&t=444535), which puts all those various data sources back into the SDE.
+
+So my workflow for creating [EWA's](http://eve.basicaware.de/evewalletaware/index.html) database looks like
+- Grab the SDE from CCP's [developer page](Static Database Export), restore the SQL backup included in the SDE to my SQL server installation.
+- Use Desmont's [SDEExternalsToSql](https://forums.eveonline.com/default.aspx?g=posts&t=444535) to import the various YAML files and SQLite DBs which 
+came with the SDE back into the SQL database.
+- Run EVESqlToMdb to create EWA's database from there.
 
 
 ## XML configuration
