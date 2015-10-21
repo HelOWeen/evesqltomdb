@@ -1,0 +1,11 @@
+groupID
+categoryID
+groupName
+description
+useBasePrice
+allowManufacture
+allowRecycler
+anchored
+anchorable
+fittableNonSingleton
+published

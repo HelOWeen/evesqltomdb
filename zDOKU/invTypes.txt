@@ -1,0 +1,13 @@
+typeID
+groupID
+typeName
+description
+mass
+volume
+capacity
+portionSize
+raceID
+basePrice
+published
+marketGroupID
+chanceOfDuplicating

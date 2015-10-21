@@ -1,0 +1,4 @@
+regionID
+regionName
+factionID
+radius

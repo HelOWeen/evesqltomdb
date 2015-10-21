@@ -1,0 +1,16 @@
+# Ignore test projects
+*.vbw
+# Ignore archives
+*.zip
+*.rar
+# Binary files
+*.exe
+*.EXE
+*.dll
+*.DLL
+CLS/*.bak
+DATA/*
+zINSTALL/*
+EVESqlToMdb.xm_
+EVESqlToMdb.xsd
+Table.xml

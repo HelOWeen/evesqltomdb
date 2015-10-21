@@ -1,0 +1,6 @@
+marketGroupID
+parentGroupID
+marketGroupName
+description
+iconID
+hasTypes

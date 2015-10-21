@@ -1,0 +1,17 @@
+regionID
+constellationID
+solarSystemID
+solarSystemName
+luminosity
+border
+fringe
+corridor
+hub
+international
+regional
+constellation
+security
+factionID
+radius
+sunTypeID
+securityClass

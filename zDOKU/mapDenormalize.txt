@@ -1,0 +1,6 @@
+itemID
+typeID
+groupID
+solarSystemID
+regionID
+itemName

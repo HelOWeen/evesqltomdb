@@ -1,0 +1,15 @@
+stationID
+security
+dockingCostPerVolume
+maxShipVolumeDockable
+officeRentalCost
+operationID
+stationTypeID
+corporationID
+solarSystemID
+constellationID
+regionID
+stationName
+reprocessingEfficiency
+reprocessingStationsTake
+reprocessingHangarFlag

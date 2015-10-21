@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *** SQL to MS Access table/columns mapping ***
+ Possible values of the attributes TypeSource/TypeTarget are the equivalent ADO DataTypes enum values, i.e. 11 = adBoolean
+ See http://www.w3schools.com/asp/ado_datatypes.asp
+ -->
+<Settings>
+	<DBSettings>
+		<DBSetting Name="Source">
+			<!-- <Connection>Provider=SQLOLEDB;Data Source=.\SQLEXPRESS;Initial Catalog=EVEDB;Integrated Security=True;</Connection> -->
+			<Connection>Provider=SQLOLEDB;Data Source=localhost\SQLEXPRESS;Initial Catalog=EVEDB;User Id=eve;Password=eve1;</Connection>
+		</DBSetting>
+		<DBSetting Name="Target">
+			<Connection>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\DATA\VB\PROJEKT\SOFTAWARE\EVEWalletAware\zTOOLs\EVESqlToMdb\DATA\EVEWalletAware.mdb;User Id=admin;Password=;</Connection>
+		</DBSetting>
+	</DBSettings>
+	<!-- Universal datat type mappings -->
+	<Mappings>
+		<Mapping TypeSource="200" TypeTarget="202" />
+		<Mapping TypeSource="16" TypeTarget="11" />
+		<Mapping TypeSource="2" TypeTarget="3" />
+		<Mapping TypeSource="17" TypeTarget="3" />
+		<Mapping TypeSource="18" TypeTarget="3" />
+		<Mapping TypeSource="19" TypeTarget="3" />
+	</Mappings>
+	<Tables>
+		<!-- 
+		<Table Name="agtAgents" Query="">
+			<Columns CopyAllColumns="true" />
+		</Table>
+		-->
+		<Table Name="invCategories" WhereClause="published=1">
+			<Columns>
+				<Column Name="categoryID" TypeTarget="3" IsIndex="true" IsPrimary="true" IsUnique="true" />
+				<!-- <Column Name="categoryName" TypeTarget="202" Size="100" /> -->
+				<Column Name="categoryName" Size="100" />
+				<Column Name="published" TypeTarget="11" />
+			</Columns>
+		</Table>
+		<Table Name="invFlags">
+			<Columns>
+				<Column Name="flagID" IsIndex="true" />
+				<Column Name="flagName" TypeTarget="202" Size="200" />
+				<Column Name="flagText" TypeTarget="202" Size="100" />
+			</Columns>
+		</Table>
+		<Table Name="invGroups">
+			<Columns>
+				<Column Name="groupID" IsIndex="true" IsPrimary="true" IsUnique="true" />
+				<Column Name="categoryID" IsIndex="true" />
+				<Column Name="groupName" TypeTarget="202" Size="100" />
+				<!-- Memo columns in Access need the size defined as 65535 -->
+				<Column Name="description" TypeTarget="203" Size="65535" AllowNull="true" />
+				<!--
+				<Column Name="useBasePrice" TypeTarget="11" />
+				<Column Name="allowManufacture" TypeTarget="11" />
+				<Column Name="allowRecycler" TypeTarget="11" />
+				-->
+				<Column Name="anchored" TypeTarget="11" />
+				<Column Name="anchorable" TypeTarget="11" />
+				<Column Name="fittableNonSingleton" TypeTarget="11" />
+				<Column Name="published" TypeTarget="11" />
+			</Columns>
+		</Table>
+		<Table Name="invMarketGroups">
+			<Columns>
+				<Column Name="marketGroupID" />
+				<Column Name="parentGroupID" AllowNull="true" />
+				<Column Name="marketGroupName" TypeTarget="202" Size="100" />
+				<!-- Memo columns in Access need the size defined as 65535 -->
+				<Column Name="description" TypeTarget="203" Size="65535" AllowNull="true" />
+				<Column Name="iconID" AllowNull="true" />
+				<Column Name="hasTypes" TypeTarget="11" />
+			</Columns>
+		</Table>
+		<Table Name="invTypes">
+			<Columns>
+				<Column Name="typeID" IsIndex="true" />
+				<Column Name="groupID" IsIndex="true" />
+				<Column Name="typeName" TypeTarget="202" Size="100" />
+				<!-- Memo columns in Access need the size defined as 65535 -->
+				<Column Name="description" TypeTarget="203" Size="65535" AllowNull="true" />
+				<Column Name="mass" Precision="15" />
+				<Column Name="volume" Precision="15" />
+				<Column Name="capacity" Precision="15" />
+				<Column Name="portionSize" AllowNull="true" />
+				<Column Name="raceID" AllowNull="true" />
+				<Column Name="basePrice" Precision="15" />
+				<Column Name="published" TypeTarget="11" />
+				<Column Name="marketGroupID" AllowNull="true" />
+				<Column Name="chanceOfDuplicating" Precision="15" />
+			</Columns>
+		</Table>
+		<Table Name="mapDenormalize">
+			<Columns>
+				<Column Name="itemID" IsIndex="true" AllowNull="true" />
+				<Column Name="typeID" IsIndex="true" AllowNull="true" />
+				<Column Name="groupID" IsIndex="true" AllowNull="true" />
+				<Column Name="solarSystemID" IsIndex="true" AllowNull="true" />
+				<Column Name="regionID" IsIndex="true" AllowNull="true" />
+				<Column Name="itemName" TypeTarget="202" Size="100" AllowNull="true" />
+			</Columns>
+		</Table>
+		<Table Name="mapRegions">
+			<Columns>
+				<Column Name="regionID" IsIndex="true" />
+				<Column Name="regionName" TypeTarget="202" Size="100" AllowNull="true" />
+				<Column Name="factionID" AllowNull="true" />
+				<Column Name="radius" Precision="15" />
+			</Columns>
+		</Table>
+		<Table Name="mapSolarSystems">
+			<Columns>
+				<Column Name="regionID" IsIndex="true" />
+				<Column Name="constellationID" IsIndex="true" />
+				<Column Name="solarSystemID" IsIndex="true" />
+				<Column Name="solarSystemName" TypeTarget="202" Size="100" AllowNull="true" />
+				<Column Name="luminosity" Precision="15" />
+				<Column Name="border" TypeTarget="11" />
+				<Column Name="fringe" TypeTarget="11" />
+				<Column Name="corridor" TypeTarget="11" />
+				<Column Name="hub" TypeTarget="11" />
+				<Column Name="international" TypeTarget="11" />
+				<Column Name="regional" TypeTarget="11" />
+				<Column Name="constellation" TypeTarget="11" />
+				<Column Name="security" Precision="15" />
+				<Column Name="factionID" AllowNull="true" />
+				<Column Name="radius" Precision="15" />
+				<Column Name="sunTypeID" />
+				<Column Name="securityClass" TypeTarget="202" Size="2" AllowNull="true" />
+			</Columns>
+		</Table>
+		<Table Name="staStations">
+			<Columns>
+				<Column Name="stationID" IsIndex="true" />
+				<Column Name="security" />
+				<Column Name="dockingCostPerVolume" Precision="15" />
+				<Column Name="maxShipVolumeDockable" Precision="15" />
+				<Column Name="officeRentalCost" />
+				<Column Name="operationID" />
+				<Column Name="stationTypeID" />
+				<Column Name="corporationID" />
+				<Column Name="solarSystemID" />
+				<Column Name="constellationID" />
+				<Column Name="regionID" />
+				<Column Name="stationName" TypeTarget="202" Size="100" AllowNull="true" />
+				<Column Name="reprocessingEfficiency" Precision="15" />
+				<Column Name="reprocessingStationsTake" Precision="15" />
+				<Column Name="reprocessingHangarFlag" />
+			</Columns>
+		</Table>
+	</Tables>
+</Settings>
+
