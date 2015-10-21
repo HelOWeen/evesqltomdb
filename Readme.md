@@ -90,7 +90,7 @@ A sample XML configuration files looks like this:
 
 Let's run through the nodes and their meaning.
 
-### DBSetting
+### Node _&lt;DBSetting&gt; and &lt;Connection&gt;_
 ```xml
 <DBSetting Name="Source">
     <Connection>Provider=SQLOLEDB;Data Source=localhost\SQLEXPRESS;Initial Catalog=EVEDB;User Id=eve;Password=eve1;</Connection>
@@ -102,7 +102,7 @@ As you can see, both are regular ADO connection strings. The _gotcha_ here is th
 If you're unsure how to construct the required ADO connection string, have a look at 
 [http://www.connectionstrings.com/](http://www.connectionstrings.com/).
 
-### Table
+### Node _&lt;Table&gt;_
 Each &lt;Table&gt; node contains the definition of the columns we want to copy from this table and - if necessary, 
 the data type mappings. ___Note:___ if this table is already present in the _target_ database, __IT WILL BE DROPPED!__ 
 ... and recreated according to the columns definition present here.
@@ -121,7 +121,7 @@ node should look like this:
 In theory every valid __WHERE__ clause should work.
 
 
-### Column
+### Node _&lt;Column&gt;_
 The &lt;Column&gt; nodes define the needed columns and if necessary their data type in the target DB. 
 The following attributes are available to control the table/column creation in the target DB:
 - __Name__ _(mandatory)_    
@@ -140,11 +140,12 @@ Set this column as the primary key.
 - __IsUnique__    
 Require unique values.
 
-### Mapping
+### Node _&lt;Mapping&gt;_
 These nodes let you define overall mapping rules, which should apply for all columns of that type, except 
 where the _Column_ definition overwrites these rules.
 
-This should be pretty self-explanatory: columns in 
+This should be pretty self-explanatory: columns of data type _TypeSource_ should be created as columns 
+_TypeTarget_ in the target database.
 
 ---
 
