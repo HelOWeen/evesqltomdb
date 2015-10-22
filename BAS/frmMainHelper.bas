@@ -64,7 +64,7 @@ With lvw.ColumnHeaders
    .Clear
    
    .Add , , "Columns"
-   .Add , , "Data type"
+   .Add , , "Data type (source)"
    .Add , , "Size", , lvwColumnRight
    .Add , , "Precision", , lvwColumnRight
    .Add , , "AllowNULL", , lvwColumnCenter
@@ -465,12 +465,13 @@ If oTable.DBColumns.CopyAllColumns = True Then
             
             Call oDB.DBTables.DBTableAddCol(oTable, oCol)
             
-            ' Column properties
+            ' Column properties (source)
             sTemp = modApp.GetFieldTypeEx(oCol.ADOXColumnSource, eType, lSize, lPrecision)
             
-            ' Data type
+            ' Data type (source)
             sTemp = sTemp & "(" & CStr(eType) & ")"
             oLI.ListSubItems.Add , , sTemp
+         
             ' Size
             oLI.ListSubItems.Add , , Format$(lSize, "#,###,##0")
             ' Precision
@@ -504,12 +505,13 @@ Else     '// If oTable.DBColumns.CopyAllColumns = True
          Set oCol.ADOXColumnSource = DBADOUtil.DBADOColumnGetADOXColCN(oDB.CnSource, sTable, sTemp)
          Call oDB.DBTables.DBTableAddADOXCol(oTable, oCol)
          
-         ' Column properties
+         ' Column properties (source)
          sTemp = modApp.GetFieldTypeEx(oCol.ADOXColumnSource, eType, lSize, lPrecision)
          
-         ' Data type
+         ' Data type (source)
          sTemp = sTemp & "(" & CStr(eType) & ")"
          oLI.ListSubItems.Add , , sTemp
+         
          ' Size
          oLI.ListSubItems.Add , , Format$(lSize, "#,###,##0")
          ' Precision
@@ -891,14 +893,18 @@ Private Function CopyData(ByVal frm As frmMain, ByVal oDB As cDB, ByVal sTable A
 'Purpose  : Copy data from source DB/table to target DB/table
 '
 'Prereq.  : -
-'Parameter: -
+'Parameter: frm      - Calling form for providingvisual feedback
+'           oDB      - Root DB handling object
+'           sTable   - Table name to prcess
 'Returns  : -
 'Note     : http://forum.winbatch.com/index.php?topic=736.0
 '           https://support.microsoft.com/en-us/kb/200427
 '
 '   Author: Knuth Konrad 14.10.2015
 '   Source: -
-'  Changed: -
+'  Changed: 22.10.2015
+'           - Handle BIT (SQL) / YesNo (Access) values where the former allows
+'           NULL, the later not.
 '------------------------------------------------------------------------------
 Dim sSQLSource As String, sSQLTarget As String
 Dim sSQLCount As String
@@ -1005,10 +1011,17 @@ If Not rs Is Nothing Then
       
       ' Set the target column's value
       For Each prm In cmd.Parameters
+      
+' { --- DEBUG --- 20.10.2015
+'      Debug.Print prm.Name
+'      Debug.Print rs.Fields(prm.Name).Type
+' } --- DEBUG --- 20.10.2015
+         
          Select Case rs.Fields(prm.Name).Type
          Case ADODB.DataTypeEnum.adBoolean
+         ' While SQL's "bool" (= bit) allows NULL values, Access's YesNo doesn't
             prm.Type = rs.Fields(prm.Name).Type
-            cmd.Parameters(prm.Name).Value = Val(rs.Fields(prm.Name).Value)
+            cmd.Parameters(prm.Name).Value = CBool(Val(vbNullString & rs.Fields(prm.Name).Value))
          Case Else
             cmd.Parameters(prm.Name).Value = rs.Fields(prm.Name).Value
          End Select
@@ -1016,7 +1029,6 @@ If Not rs Is Nothing Then
       
       sParam = GetDBParametersString(cmd)
 ' { --- DEBUG --- 20.10.2015
-'
 '      Debug.Print sSQLTarget
 '      Debug.Print sParam
 ' } --- DEBUG --- 20.10.2015
