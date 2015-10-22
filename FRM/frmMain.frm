@@ -431,7 +431,7 @@ Dim sMsg As String, bolResult As Boolean
 StatusMsg "Testing target database connection ..."
 Screen.MousePointer = vbHourglass
 
-bolResult = MainDBTestConnection(Me.txtConnectionSource.Text, sMsg)
+bolResult = MainDBTestConnection(Me.txtConnectionTarget.Text, sMsg)
 
 Screen.MousePointer = vbNormal
 

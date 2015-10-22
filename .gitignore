@@ -11,6 +11,7 @@
 CLS/*.bak
 DATA/*
 zINSTALL/*
+zTESTDATA/*
 EVESqlToMdb.xm_
 EVESqlToMdb.xsd
 Table.xml
