@@ -247,6 +247,56 @@ Resume MainCopyDataErrExit
 End Function
 '==============================================================================
 
+Public Function MainDBTestConnection(ByVal sConnection As String, ByRef sErrMsg As String) As Boolean
+'------------------------------------------------------------------------------
+'Purpose  : Test if a DB connection could be established for the provided ADO
+'           connection string
+'
+'Prereq.  : -
+'Parameter: sConnection - ADO Connection string to test
+'           sErrMsg     - (ByRef!) ADO error message, if connection fails.
+'Returns  : -
+'Note     : -
+'
+'   Author: Knuth Konrad 22.10.2015
+'   Source: -
+'  Changed: -
+'------------------------------------------------------------------------------
+Dim cn As ADODB.Connection
+Dim oErr As Object
+
+On Error Resume Next
+
+Set cn = New ADODB.Connection
+
+cn.ConnectionString = sConnection
+Call cn.Open
+
+If Err Then
+   If cn.State <> adStateClosed Then
+      Call cn.Close
+   End If
+   sErrMsg = "Error: " & CStr(Err.Number) & ", " & Err.Description
+   MainDBTestConnection = False
+ElseIf cn.Errors.Count > 0 Then
+   For Each oErr In cn.Errors
+      sErrMsg = sErrMsg & "Error: " & CStr(oErr.Number) & ", " & oErr.Description & vbNewLine
+   Next oErr
+   Call cn.Close
+   MainDBTestConnection = False
+   Call cn.Errors.Clear
+Else
+   Call cn.Close
+   MainDBTestConnection = True
+End If
+
+On Error GoTo 0
+
+Set cn = Nothing
+
+End Function
+'==============================================================================
+
 Private Function OpenSource(ByVal oDB As cDB) As Boolean
 '------------------------------------------------------------------------------
 'Purpose  : Opens the ADO source connection

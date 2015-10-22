@@ -23,7 +23,7 @@ Begin VB.Form frmMain
       Align           =   2  'Unten ausrichten
       Height          =   255
       Left            =   0
-      TabIndex        =   24
+      TabIndex        =   23
       Top             =   8280
       Width           =   16275
       _ExtentX        =   28707
@@ -73,13 +73,13 @@ Begin VB.Form frmMain
       Height          =   5175
       Index           =   2
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   11
       Top             =   3000
       Width           =   15975
       Begin MSComctlLib.ListView lvwTableSource 
          Height          =   3015
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   16
          Top             =   1320
          Width           =   4095
          _ExtentX        =   7223
@@ -101,14 +101,14 @@ Begin VB.Form frmMain
          Caption         =   "&Start data transfer"
          Height          =   375
          Left            =   14040
-         TabIndex        =   12
+         TabIndex        =   14
          Top             =   600
          Width           =   1695
       End
       Begin MSComctlLib.ProgressBar prgMain 
          Height          =   375
          Left            =   240
-         TabIndex        =   19
+         TabIndex        =   21
          Top             =   4680
          Width           =   15495
          _ExtentX        =   27331
@@ -116,49 +116,18 @@ Begin VB.Form frmMain
          _Version        =   393216
          Appearance      =   1
       End
-      Begin VB.ListBox lstColumnsSource 
-         Enabled         =   0   'False
-         Height          =   255
-         Left            =   7560
-         Sorted          =   -1  'True
-         TabIndex        =   21
-         Top             =   960
-         Visible         =   0   'False
-         Width           =   1455
-      End
-      Begin VB.ListBox lstTableTarget 
-         Columns         =   2
-         Enabled         =   0   'False
-         Height          =   255
-         Left            =   14520
-         Sorted          =   -1  'True
-         TabIndex        =   22
-         Top             =   1080
-         Visible         =   0   'False
-         Width           =   1215
-      End
-      Begin VB.ListBox lstTableSource 
-         Enabled         =   0   'False
-         Height          =   255
-         Left            =   1680
-         Sorted          =   -1  'True
-         TabIndex        =   20
-         Top             =   960
-         Visible         =   0   'False
-         Width           =   1335
-      End
       Begin VB.TextBox txtTask 
          Height          =   285
          Left            =   240
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   13
          Top             =   600
          Width           =   13575
       End
       Begin MSComctlLib.ListView lvwColumnsSource 
          Height          =   3015
          Left            =   4560
-         TabIndex        =   16
+         TabIndex        =   18
          Top             =   1320
          Width           =   6855
          _ExtentX        =   12091
@@ -179,7 +148,7 @@ Begin VB.Form frmMain
       Begin MSComctlLib.ListView lvwTableTarget 
          Height          =   3015
          Left            =   11640
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   1320
          Width           =   4095
          _ExtentX        =   7223
@@ -202,7 +171,7 @@ Begin VB.Form frmMain
          Caption         =   "lblrecords"
          Height          =   195
          Left            =   240
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   4440
          Width           =   675
       End
@@ -212,7 +181,7 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   5
          Left            =   4560
-         TabIndex        =   15
+         TabIndex        =   17
          Top             =   1080
          Width           =   1350
       End
@@ -222,7 +191,7 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   4
          Left            =   11640
-         TabIndex        =   17
+         TabIndex        =   19
          Top             =   1080
          Width           =   960
       End
@@ -232,19 +201,19 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   13
+         TabIndex        =   15
          Top             =   1080
          Width           =   1320
       End
       Begin VB.Label lblMain 
          AutoSize        =   -1  'True
-         Caption         =   "Current task"
+         Caption         =   "Current / last task"
          Height          =   195
          Index           =   2
          Left            =   240
-         TabIndex        =   10
+         TabIndex        =   12
          Top             =   360
-         Width           =   855
+         Width           =   1260
       End
    End
    Begin VB.Frame fraMain 
@@ -255,19 +224,37 @@ Begin VB.Form frmMain
       TabIndex        =   4
       Top             =   1080
       Width           =   15975
+      Begin VB.CommandButton cmdTestTarget 
+         Caption         =   "Test"
+         Height          =   375
+         Left            =   14520
+         TabIndex        =   10
+         ToolTipText     =   "Test target ADO connection string"
+         Top             =   1320
+         Width           =   1215
+      End
+      Begin VB.CommandButton cmdTestSource 
+         Caption         =   "Test"
+         Height          =   375
+         Left            =   14520
+         TabIndex        =   7
+         ToolTipText     =   "Test source ADO connection string"
+         Top             =   600
+         Width           =   1215
+      End
       Begin VB.TextBox txtConnectionTarget 
          Height          =   285
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   1320
-         Width           =   15495
+         Width           =   14055
       End
       Begin VB.TextBox txtConnectionSource 
          Height          =   285
          Left            =   240
          TabIndex        =   6
          Top             =   600
-         Width           =   15495
+         Width           =   14055
       End
       Begin VB.Label lblMain 
          AutoSize        =   -1  'True
@@ -275,7 +262,7 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   1
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   1080
          Width           =   2880
       End
@@ -413,6 +400,49 @@ Else
 End If
 
 AppState = asIdle
+
+End Sub
+
+Private Sub cmdTestSource_Click()
+
+Dim sMsg As String, bolResult As Boolean
+
+StatusMsg "Testing source database connection ..."
+Screen.MousePointer = vbHourglass
+
+bolResult = MainDBTestConnection(Me.txtConnectionSource.Text, sMsg)
+
+Screen.MousePointer = vbNormal
+
+If bolResult = True Then
+   StatusMsg "Connection test successfully completed."
+   MsgBox "Test successfully completed.", vbInformation Or vbOKOnly, "Connection test"
+Else
+   StatusMsg "Connection test failed."
+   MsgBox sMsg, vbCritical Or vbOKOnly, "Connection test"
+End If
+
+End Sub
+
+Private Sub cmdTestTarget_Click()
+
+Dim sMsg As String, bolResult As Boolean
+
+StatusMsg "Testing target database connection ..."
+Screen.MousePointer = vbHourglass
+
+bolResult = MainDBTestConnection(Me.txtConnectionSource.Text, sMsg)
+
+Screen.MousePointer = vbNormal
+
+If bolResult = True Then
+   StatusMsg "Connection test successfully completed."
+   MsgBox "Test successfully completed.", vbInformation Or vbOKOnly, "Connection test"
+Else
+   StatusMsg "Connection test failed."
+   MsgBox sMsg, vbCritical Or vbOKOnly, "Connection test"
+End If
+
 
 End Sub
 

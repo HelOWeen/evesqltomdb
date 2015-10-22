@@ -442,6 +442,25 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version history
 
 
+### Version 1.0.1, 22.10.2015
+#### Bugfix
+
+-  
+
+#### New
+
+- Added the possibility to test each ADO connection string.
+
+#### Change
+
+-  
+
+#### Misc.
+
+-  
+
+---
+
 ### Version 1.0.15, 21.10.2015
 #### Bugfix
 
