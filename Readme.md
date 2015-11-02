@@ -468,7 +468,7 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 
 #### Change
 
-- Added a resizable form as a MsgBox replacement to account with lengthy error messages that might occur.
+- Added a resizable form as a MsgBox replacement to account for lengthy error messages that might occur.
 
 #### Misc.
 
