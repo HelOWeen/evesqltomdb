@@ -33,6 +33,7 @@ Class=cDBMappings; CLS\cDBMappings.cls
 Module=PCtrlCC; ..\..\INCLUDE\BAS\PCtrlCC.bas
 Module=modListViewAdjustColumnWidth; ..\..\INCLUDE\BAS\modListViewAdjustColumnWidth.bas
 Form=FRM\frmAbout.frm
+Form=FRM\frmExtTextbox.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

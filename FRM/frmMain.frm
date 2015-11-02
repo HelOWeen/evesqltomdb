@@ -666,7 +666,17 @@ sMsg = sMsg & vbNewLine
 Select Case eEvent
 Case eBADbEvent.dbeSuccess, eBADbEvent.dbeRecordAdded, eBADbEvent.dbeRecordCount, eBADbEvent.dbeColDoMapping
 Case Else
-   MsgBox sMsg & CStr(vntValue), vbCritical Or vbOKOnly, "An error occured"
+   Dim frmMsg As frmExtTextbox
+   Set frmMsg = New frmExtTextbox
+   Load frmMsg
+   Set frmMsg.ParentTextbox = Me.txtTask
+   frmMsg.Caption = "An error occured"
+   txtTask.Text = sMsg & CStr(vntValue)
+   Screen.MousePointer = vbNormal
+   CenterFrmOnFrm frmMsg, Me
+   frmMsg.Show vbModal, Me
+   Set frmMsg = Nothing
+   'MsgBox sMsg & CStr(vntValue), vbCritical Or vbOKOnly, "An error occured"
 End Select
 
 End Sub

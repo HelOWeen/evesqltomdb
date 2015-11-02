@@ -457,6 +457,26 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version history
 
 
+### Version 1.0.xx, xx.xx.2015
+#### Bugfix
+
+-  
+
+#### New
+
+-  
+
+#### Change
+
+- Added a resizable form as a MsgBox replacement to account with lengthy error messages that might occur.
+
+#### Misc.
+
+-  
+
+---
+
+
 ### Version 1.0.22, 01.11.2015
 #### Bugfix
 
