@@ -60,6 +60,9 @@ A sample XML configuration files looks like this:
         </DBSetting>
     </DBSettings>
     <Tables>
+        <Table Name="agtAgents">
+            <Columns CopyAllColumns="true" />
+        </Table>
         <Table Name="invCategories" Query="published=1">
             <Columns>
                 <Column Name="categoryID" TypeTarget="3" IsIndex="true" IsPrimary="true" IsUnique="true" />
@@ -123,6 +126,15 @@ node should look like this:
 ```
 In theory every valid __WHERE__ clause should work.
 
+### Node _&lt;Columns&gt;_
+The &lt;Columns&gt; node is the collection of the to be copied database 
+columns. This node provides one optional Attribute:    
+* __CopyAllColumns__     
+If set to _true_, all columns of the source table will be copied to the
+target table. This saves you from listing all columns of a table in 
+separate &lt;Column&gt; nodes in case you want to copy the whole table 
+and all of its columns. Any further &lt;Column&gt; definition for this 
+table will be ignored then.  
 
 ### Node _&lt;Column&gt;_
 The &lt;Column&gt; nodes define the needed columns and if necessary their data type in the target DB. 
@@ -445,7 +457,28 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version history
 
 
-### Version 1.0.1, 22.10.2015
+### Version 1.0.22, 01.11.2015
+#### Bugfix
+
+-  
+
+#### New
+
+- The optional attribute _CopyAllColumns_ (boolean) has been added to the 
+&lt;Columns&gt; node. If set to _true_, __all__ columns of this source 
+table will be copied over to the target database.
+
+#### Change
+
+-  
+
+#### Misc.
+
+- The above feature has been coded on the way to the _FHC Berlin_ meeting.  
+
+---
+
+### Version 1.0.17, 22.10.2015
 #### Bugfix
 
 -  
