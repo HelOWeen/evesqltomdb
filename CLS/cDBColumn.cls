@@ -86,7 +86,7 @@ Private mbolIsPrimary As Boolean
 Private mbolIsUnique As Boolean
 Private mlSize As Long
 Private mlPrecision As Long
-Private mbolAllowNull As Boolean
+Private msAllowNullStr As String
 
 Public ADOXColumnSource As ADOX.Column
 '------------------------------------------------------------------------------
@@ -158,12 +158,33 @@ Friend Property Let Precision(ByVal lValue As Long)
    mlPrecision = lValue
 End Property
 
-Friend Property Get AllowNull() As Boolean
-   AllowNull = mbolAllowNull
+Friend Property Get AllowNullStr() As String
+   AllowNullStr = msAllowNullStr
 End Property
 
-Friend Property Let AllowNull(ByVal bolValue As Boolean)
-   mbolAllowNull = bolValue
+Friend Property Let AllowNullStr(ByVal sValue As String)
+   msAllowNullStr = sValue
+End Property
+
+Friend Property Get AllowNull() As Boolean
+
+   ' Assume False ...
+   AllowNull = False
+   
+   If Len(AllowNullStr) > 0 Then
+   ' Defined in XML
+      AllowNull = CBool(AllowNullStr)
+   Else
+   ' Not set in XML, cehck out the source column's setting
+      If Not Me.ADOXColumnSource Is Nothing Then
+         With Me.ADOXColumnSource
+            If .Attributes = (.Attributes Or adColNullable) Then
+               AllowNull = True
+            End If
+         End With
+      End If
+   End If
+
 End Property
 
 Friend Property Get GetTypeTarget() As eADOXDataTypeEnum
@@ -287,7 +308,7 @@ Const PROCEDURE_NAME As String = "cDBColumn:ParseXMLAttr->"
 
 With Me
 
-   .AllowNull = CBool(GetXMLAttributeValueFromNode(oNode, "AllowNull", "False"))
+   .AllowNullStr = GetXMLAttributeValueFromNode(oNode, "AllowNull", vbNullString)
    .ColName = GetXMLAttributeValueFromNode(oNode, "Name")
    .IsIndex = CBool(GetXMLAttributeValueFromNode(oNode, "IsIndex", "False"))
    .IsPrimary = CBool(GetXMLAttributeValueFromNode(oNode, "IsPrimary", "False"))

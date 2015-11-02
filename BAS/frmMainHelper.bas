@@ -450,8 +450,8 @@ If oTable.DBColumns.CopyAllColumns = True Then
             With oCol
                .ColName = colADO.Name
                Set .ADOXColumnSource = colADO
-               If colADO.Attributes = adColNullable Then
-                  .AllowNull = True
+               If colADO.Attributes = (colADO.Attributes Or adColNullable) Then
+                  .AllowNullStr = "True"
                End If
                .Precision = colADO.Precision
                .Size = colADO.DefinedSize
@@ -759,8 +759,16 @@ With tbl
          
          ' Allow null?
          If oDBCol.AllowNull = True Then
+         ' From XML definition
             col.Attributes = adColNullable
          End If
+         
+         ' Regardless of AllowNull, the following target column types should not be NULL
+         ' adBoolean can never be NULL
+         Select Case oDBCol.TypeTarget
+         Case adoBoolean
+            col.Attributes = 0
+         End Select
          
          sColType = modApp.GetFieldType(col)
          .Columns.Append col
@@ -893,7 +901,7 @@ Private Function CopyData(ByVal frm As frmMain, ByVal oDB As cDB, ByVal sTable A
 'Purpose  : Copy data from source DB/table to target DB/table
 '
 'Prereq.  : -
-'Parameter: frm      - Calling form for providingvisual feedback
+'Parameter: frm      - Calling form for providing visual feedback
 '           oDB      - Root DB handling object
 '           sTable   - Table name to prcess
 'Returns  : -
@@ -905,6 +913,9 @@ Private Function CopyData(ByVal frm As frmMain, ByVal oDB As cDB, ByVal sTable A
 '  Changed: 22.10.2015
 '           - Handle BIT (SQL) / YesNo (Access) values where the former allows
 '           NULL, the later not.
+'           30.10.2015
+'           - Enclose column names in brackets ([]) to escape potential
+'           naming conflicts
 '------------------------------------------------------------------------------
 Dim sSQLSource As String, sSQLTarget As String
 Dim sSQLCount As String
@@ -957,7 +968,7 @@ For i = 1 To lColCount
    
    cmd.Parameters.Append prm
    
-   sSQLSource = sSQLSource & oDBCol.ColName
+   sSQLSource = sSQLSource & "[" & oDBCol.ColName & "]"
    sSQLTarget = sSQLTarget & "@" & oDBCol.ColName
 
    If i < lColCount Then
