@@ -40,6 +40,19 @@ So my workflow for creating [EWA's](http://eve.basicaware.de/evewalletaware/inde
 came with the SDE back into the SQL database.
 - Run EVESqlToMdb to create EWA's database from there.
 
+---
+
+## Command Line Parameters
+All command line parameters are optional. The following command line parameters are available:  
+
+- __/Config=&lt;XML file incl. full path&gt;__  
+The application does store the most current XML file used and restores it at start up. You can however 
+overwrite the configuration file to be used using this parameter. Makes the most sense in conjunction 
+with the parameter /AutoStart
+- __/AutoStart__  
+Upon application startup, immediately start the data transfer. 
+
+---
 
 ## XML configuration
 A sample XML configuration files looks like this:
@@ -452,9 +465,7 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 </table>
 
 
----
-
-# Version history
+# Version History
 
 
 ### Version 1.0.xx, xx.xx.2015
@@ -494,7 +505,7 @@ table will be copied over to the target database.
 
 #### Misc.
 
-- The above feature has been coded on the way to the _FHC Berlin_ meeting.  
+- The above feature has been coded on the way to the [_FHC Berlin_](http://failheap-challenge.com/showthread.php?20086-MEETUP-Wir-fahren-nach-Berlin-at-the-end-of-Oct) meeting.  
 
 ---
 
