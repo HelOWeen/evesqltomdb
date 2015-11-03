@@ -35,8 +35,8 @@ Private Const INISC_GENERAL As String = "General"
 '------------------------------------------------------------------------------
 Public Enum eInitError
    InitSuccess = 0
-   DBOpenFailed = 1
-   DBFileNotFound = 2
+   DBOpenFailed
+   DBFileNotFound
 End Enum
 '------------------------------------------------------------------------------
 '*** Declares ***
@@ -48,10 +48,11 @@ Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePr
 '------------------------------------------------------------------------------
 '*** Variables ***
 '------------------------------------------------------------------------------
-Private msINIFile As String      'INI inkl. komplettem Pfad
-Private msAppPath As String      'Pfad zur Anwendung
+Private msINIFile As String      ' INI inkl. komplettem Pfad
+Private msAppPath As String      ' Path to <User>\AppData
 
-Private msLastXML As String
+Private msLastXML As String      ' XML config file
+Private mbolAutoStart As Boolean ' Start data copying automatically
 '------------------------------------------------------------------------------
 '*** Events ***
 '------------------------------------------------------------------------------
@@ -88,6 +89,14 @@ Friend Property Let LastXML(ByVal sValue As String)
       RaiseEvent OnXMLFileChange(sValue, False)
    End If
    
+End Property
+
+Friend Property Get AutoStart() As Boolean
+   AutoStart = mbolAutoStart
+End Property
+
+Friend Property Let AutoStart(ByVal bolValue As Boolean)
+   mbolAutoStart = bolValue
 End Property
 
 Friend Property Get RegSectionWindowPosition() As String

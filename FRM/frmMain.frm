@@ -364,7 +364,7 @@ gobjApp.LastXML = Me.txtXML.Text
 
 End Sub
 
-Private Sub cmdOK_Click()
+Public Sub cmdOK_Click()
 
 Dim dblTimeStart As Double, dblTimeEnd As Double
 
@@ -374,8 +374,14 @@ End If
 
 Screen.MousePointer = vbHourglass
 
-' Reinitiate the config.
-Me.cmdApply_Click
+If gobjApp.AutoStart = False Then
+   ' Reinitiate the config.
+   Me.cmdApply_Click
+Else
+' Don't reinitialize with param AutoStart, but set AutoStart to False
+' to prevent error loops
+   gobjApp.AutoStart = False
+End If
 
 AppState = asIsRunning
 prgMain.Value = 0

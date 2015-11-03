@@ -54,7 +54,7 @@ sFile = Trim$(gobjCmd.GetValueByName(LCase$(CMD_CONFIG)))
 
 If Len(sFile) > 0 Then
    
-   If FileExist(sFile) = False Then
+   If FileExist(DeQuote(sFile)) = False Then
       
       MsgBox "Configuration file not found: " & sFile & ". Application will now terminate.", vbCritical Or vbOKOnly, "Initialisation failed"
 
@@ -69,8 +69,10 @@ If Len(sFile) > 0 Then
    
 End If
 
+' Autostart?
+gobjApp.AutoStart = CBool(gobjCmd.GetValueByName(CMD_AUTOSTART))
 
-'** Erste Initialisierung der Anwendungsparameter
+' ** Erste Initialisierung der Anwendungsparameter
 eInit = gobjApp.Init()
    
 ' ** Anwendungsfenster laden
@@ -87,6 +89,10 @@ With frmMain
    .txtXML.Text = gobjApp.LastXML
    Call .cmdApply_Click
    .Show
+   ' Autostart?
+   If gobjApp.AutoStart = True Then
+      Call .cmdOK_Click
+   End If
 End With
 
 End Sub
@@ -144,9 +150,18 @@ End Sub
 '==============================================================================
 
 Public Function EnQuote(ByVal sText As String, Optional ByVal sQuote As String = """") As String
+   EnQuote = sQuote & sText & sQuote
+End Function
+'==============================================================================
 
-EnQuote = sQuote & sText & sQuote
-
+Public Function DeQuote(ByVal sText As String, Optional ByVal sQuote As String = """") As String
+   If Left$(sText, 1) = sQuote Then
+      sText = Mid$(sText, 2)
+   End If
+   If Right$(sText, 1) = sQuote Then
+      sText = Left$(sText, Len(sText) - 1)
+   End If
+   DeQuote = sText
 End Function
 '==============================================================================
 
