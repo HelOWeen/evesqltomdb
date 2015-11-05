@@ -475,7 +475,8 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 
 #### New
 
--  
+- Command line parameters  
+Add two (optional) command line parameters: /Config and /Autostart. See above for documentation.
 
 #### Change
 
@@ -488,7 +489,7 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 ---
 
 
-### Version 1.0.22, 01.11.2015
+### Version 1.0.19, 01.11.2015
 #### Bugfix
 
 -  
