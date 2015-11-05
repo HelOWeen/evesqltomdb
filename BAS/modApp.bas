@@ -73,7 +73,7 @@ End If
 gobjApp.AutoStart = CBool(gobjCmd.GetValueByName(CMD_AUTOSTART))
 
 ' ** Erste Initialisierung der Anwendungsparameter
-eInit = gobjApp.Init()
+eInit = gobjApp.Init(sFile)
    
 ' ** Anwendungsfenster laden
 Screen.MousePointer = vbHourglass

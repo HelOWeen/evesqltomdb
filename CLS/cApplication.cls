@@ -103,7 +103,7 @@ Friend Property Get RegSectionWindowPosition() As String
    RegSectionWindowPosition = REG_SECTION & "\WindowPosition"
 End Property
 
-Friend Function Init() As eInitError
+Friend Function Init(Optional ByVal sConfigXML As String = vbNullString) As eInitError
 '------------------------------------------------------------------------------
 'Purpose  : Initializierung des cApplication-Objekts
 '
@@ -114,7 +114,8 @@ Friend Function Init() As eInitError
 '
 '   Author: Knuth Konrad 06.10.2015
 '   Source: -
-'  Changed: -
+'  Changed: 05.11.2015
+'           - Pass CLI config via parameter
 '------------------------------------------------------------------------------
 Dim lRetval As Long
 Dim sTemp As String
@@ -124,6 +125,11 @@ sTemp = Space$(MAX_PATH)
 lRetval = GetPrivateProfileString(INISC_GENERAL, "CfgXML", LastXML, sTemp, Len(sTemp), INIFile)
 If lRetval Then
    LastXML = Left$(sTemp, lRetval)
+End If
+
+' Config passed by command line?
+If Len(sConfigXML) > 0 Then
+   LastXML = sConfigXML
 End If
 
 Init = InitSuccess
