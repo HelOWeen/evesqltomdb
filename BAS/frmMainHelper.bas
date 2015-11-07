@@ -109,14 +109,14 @@ Const PROCEDURE_NAME As String = "frmMainHelper:MainTransferStart->"
 ' *** Establishing the database connections
 
 ' Try the (SQL) source server first ...
-StatusMsg "Establishing database connection to SQL server ..."
+StatusMsg "Establishing database connection to source DBMS ..."
 
 If Not OpenSource(oDB) Then
    Exit Function
 End If
 
 ' ... now it's up to the (MS Access) target database
-StatusMsg "Establishing database connection to MS Access MDB ..."
+StatusMsg "Establishing database connection to target DBMS ..."
 
 If Not OpenTarget(oDB) Then
    Exit Function

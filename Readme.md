@@ -468,7 +468,7 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version History
 
 
-### Version 1.0.xx, xx.xx.2015
+### Version 1.0.21, 07.11.2015
 #### Bugfix
 
 -  
@@ -484,7 +484,7 @@ Add two (optional) command line parameters: /Config and /Autostart. See above fo
 
 #### Misc.
 
--  
+- Cosmetic change. Replace the terms "SQL Server" and "MS Access" in messages with the more generic ones "source DBMS", "target DBMS".
 
 ---
 
