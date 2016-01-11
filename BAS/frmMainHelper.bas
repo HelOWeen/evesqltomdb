@@ -916,6 +916,8 @@ Private Function CopyData(ByVal frm As frmMain, ByVal oDB As cDB, ByVal sTable A
 '           30.10.2015
 '           - Enclose column names in brackets ([]) to escape potential
 '           naming conflicts
+'           11.01.2016
+'           - FIX: Handling of SQL BOOL -> Access Booelan
 '------------------------------------------------------------------------------
 Dim sSQLSource As String, sSQLTarget As String
 Dim sSQLCount As String
@@ -1032,7 +1034,11 @@ If Not rs Is Nothing Then
          Case ADODB.DataTypeEnum.adBoolean
          ' While SQL's "bool" (= bit) allows NULL values, Access's YesNo doesn't
             prm.Type = rs.Fields(prm.Name).Type
-            cmd.Parameters(prm.Name).Value = CBool(Val(vbNullString & rs.Fields(prm.Name).Value))
+            If Not IsNull(rs.Fields(prm.Name).Value) Then
+               cmd.Parameters(prm.Name).Value = CBool(rs.Fields(prm.Name).Value)
+            Else
+               cmd.Parameters(prm.Name).Value = False
+            End If
          Case Else
             cmd.Parameters(prm.Name).Value = rs.Fields(prm.Name).Value
          End Select
