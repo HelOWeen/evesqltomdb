@@ -468,6 +468,27 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version History
 
 
+### Version 1.0.23, 07.01.2016
+#### Bugfix
+
+- Handling of SQL bool values if the column's value is NULL    
+Converting from SQL bool to Access Boolean (or other numerich values) has silently failed.
+
+#### New
+
+-    
+
+#### Change
+
+-    
+
+#### Misc.
+
+-    
+
+---
+
+
 ### Version 1.0.21, 07.11.2015
 #### Bugfix
 
