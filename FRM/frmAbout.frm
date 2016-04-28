@@ -123,7 +123,7 @@ lblTitle.Caption = App.Title
 picIcon.Picture = frmMain.Icon
 Me.Icon = frmMain.Icon
 
-lblDisclaimer.Caption = "This application: Copyright " & Chr$(169) & " " & CStr(Year(Now)) & " by Hel O'Ween" & vbNewLine & _
+lblDisclaimer.Caption = "This application: Copyright " & Chr$(169) & " 2015, " & CStr(Year(Now)) & " by Hel O'Ween" & vbNewLine & _
    "EVE Online is a trademark of CCP Games. All EVE related material used in this application is copyrighted by CCP hf."
 
 Set oWP = New cWindowPosition

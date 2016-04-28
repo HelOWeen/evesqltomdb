@@ -297,6 +297,38 @@ Set cn = Nothing
 End Function
 '==============================================================================
 
+Public Function MainCompressDB(ByVal hWndMain As Long, ByRef lOld As Long, ByRef lNew As Long) As eDBCompressResult
+'------------------------------------------------------------------------------
+'Purpose  : Compress a MS Access database after the copy operation
+'
+'Prereq.  : -
+'Parameter: -
+'Returns  : -
+'Note     : -
+'
+'   Author: Knuth Konrad 28.04.2016
+'   Source: -
+'  Changed: -
+'------------------------------------------------------------------------------
+Dim sDBFile As String
+Dim oCmDlg As New saCommonDialog
+
+If oCmDlg.VBGetOpenFileName(sDBFile, , , , , , "Microsoft Access (*.mdb)|*.mdb", , , "Select database", , hWndMain) = True Then
+   StatusMsg "Compressing database ..."
+   Screen.MousePointer = vbHourglass
+   lOld = FileLen(sDBFile)
+   DoEvents
+   MainCompressDB = Compress(sDBFile)
+   Screen.MousePointer = vbNormal
+   lNew = FileLen(sDBFile)
+   DoEvents
+Else
+   MainCompressDB = Success
+End If
+
+End Function
+'==============================================================================
+
 Private Function OpenSource(ByVal oDB As cDB) As Boolean
 '------------------------------------------------------------------------------
 'Purpose  : Opens the ADO source connection

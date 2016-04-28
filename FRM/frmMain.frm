@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   3  'Fester Dialog
    Caption         =   "EVESqlToMdb"
@@ -406,6 +406,21 @@ Else
 End If
 
 AppState = asIdle
+
+If MsgBox("Compress target database?", vbQuestion Or vbYesNo) = vbYes Then
+   Dim lLenOld As Long, lLenNew As Long, sMsg As String
+   AppState = asIsRunning
+   Set moDB = Nothing
+   If MainCompressDB(Me.hwnd, lLenOld, lLenNew) = Success Then
+      sMsg = "Done. File size:" & vbNewLine & _
+         "Old: " & Format$(CLng(lLenOld / 1024&), "#,###,###,### KB") & vbNewLine & _
+         "New: " & Format$(CLng(lLenNew / 1024&), "#,###,###,### KB")
+      MsgBox sMsg, vbInformation Or vbOKOnly
+   Else
+      MsgBox "Coudln't compress database.", vbExclamation Or vbOKOnly
+   End If
+   AppState = asIdle
+End If
 
 End Sub
 
