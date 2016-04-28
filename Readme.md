@@ -468,6 +468,28 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version History
 
 
+### Version 1.0.24, 28.04.2016
+#### Bugfix
+
+- 
+
+
+#### New
+
+- Compression of target (MS Access) database    
+After having finished the copy process, the application now allows to compress the target database. 
+
+#### Change
+
+-    
+
+#### Misc.
+
+-    
+
+---
+
+
 ### Version 1.0.23, 07.01.2016
 #### Bugfix
 
