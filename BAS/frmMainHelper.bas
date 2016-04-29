@@ -297,7 +297,8 @@ Set cn = Nothing
 End Function
 '==============================================================================
 
-Public Function MainCompressDB(ByVal hWndMain As Long, ByRef lOld As Long, ByRef lNew As Long) As eDBCompressResult
+Public Function MainCompressDB(ByVal hWndMain As Long, ByVal sCnStr As String, _
+   ByRef lOld As Long, ByRef lNew As Long) As eDBCompressResult
 '------------------------------------------------------------------------------
 'Purpose  : Compress a MS Access database after the copy operation
 '
@@ -313,18 +314,33 @@ Public Function MainCompressDB(ByVal hWndMain As Long, ByRef lOld As Long, ByRef
 Dim sDBFile As String
 Dim oCmDlg As New saCommonDialog
 
-If oCmDlg.VBGetOpenFileName(sDBFile, , , , , , "Microsoft Access (*.mdb)|*.mdb", , , "Select database", , hWndMain) = True Then
-   StatusMsg "Compressing database ..."
-   Screen.MousePointer = vbHourglass
-   lOld = FileLen(sDBFile)
-   DoEvents
-   MainCompressDB = Compress(sDBFile)
-   Screen.MousePointer = vbNormal
-   lNew = FileLen(sDBFile)
-   DoEvents
-Else
-   MainCompressDB = Success
-End If
+sDBFile = ADOSplitConnectionString(sCnStr, cspDataSource)
+   
+If FileExist(sDBFile) = True Then
+
+   If LCase$(ExtractExtensionName(sDBFile)) = ".mdb" Then
+     
+     StatusMsg "Compressing database ..."
+     Screen.MousePointer = vbHourglass
+     lOld = FileLen(sDBFile)
+     DoEvents
+     MainCompressDB = Compress(sDBFile)
+     Screen.MousePointer = vbNormal
+     lNew = FileLen(sDBFile)
+     DoEvents
+     
+   Else
+   
+      ' No Access database
+      MainCompressDB = ErrorNoMDB
+      
+   End If
+   
+ Else
+   
+   MainCompressDB = ErrorDBFileNotFound
+ 
+ End If
 
 End Function
 '==============================================================================
