@@ -468,7 +468,26 @@ create a column in a MS Access database. A working datatype for MS Access in tha
 # Version History
 
 
-### Version 1.0.25, 29.04.2016
+### Version 1.0.26, 23.09.2016
+#### Bugfix
+
+- 
+
+
+#### New
+
+-    
+
+#### Change
+
+- Increment EWA DB version information    
+Added the option _(checkbox)_. To autoincrement EWA' database version information. 
+
+#### Misc.
+
+-    
+
+---
 #### Bugfix
 
 - 

@@ -23,7 +23,7 @@ Begin VB.Form frmMain
       Align           =   2  'Unten ausrichten
       Height          =   255
       Left            =   0
-      TabIndex        =   23
+      TabIndex        =   24
       Top             =   8280
       Width           =   16275
       _ExtentX        =   28707
@@ -76,10 +76,19 @@ Begin VB.Form frmMain
       TabIndex        =   11
       Top             =   3000
       Width           =   15975
+      Begin VB.CheckBox chkAutoIncDBVersion 
+         Caption         =   "A&utoincrement EWA DB version"
+         Height          =   255
+         Left            =   11040
+         TabIndex        =   14
+         Top             =   600
+         Value           =   1  'Aktiviert
+         Width           =   2775
+      End
       Begin MSComctlLib.ListView lvwTableSource 
          Height          =   3015
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   1320
          Width           =   4095
          _ExtentX        =   7223
@@ -101,14 +110,14 @@ Begin VB.Form frmMain
          Caption         =   "&Start data transfer"
          Height          =   375
          Left            =   14040
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   600
          Width           =   1695
       End
       Begin MSComctlLib.ProgressBar prgMain 
          Height          =   375
          Left            =   240
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   4680
          Width           =   15495
          _ExtentX        =   27331
@@ -122,12 +131,12 @@ Begin VB.Form frmMain
          Locked          =   -1  'True
          TabIndex        =   13
          Top             =   600
-         Width           =   13575
+         Width           =   10575
       End
       Begin MSComctlLib.ListView lvwColumnsSource 
          Height          =   3015
          Left            =   4560
-         TabIndex        =   18
+         TabIndex        =   19
          Top             =   1320
          Width           =   6855
          _ExtentX        =   12091
@@ -148,7 +157,7 @@ Begin VB.Form frmMain
       Begin MSComctlLib.ListView lvwTableTarget 
          Height          =   3015
          Left            =   11640
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   1320
          Width           =   4095
          _ExtentX        =   7223
@@ -171,7 +180,7 @@ Begin VB.Form frmMain
          Caption         =   "lblrecords"
          Height          =   195
          Left            =   240
-         TabIndex        =   22
+         TabIndex        =   23
          Top             =   4440
          Width           =   675
       End
@@ -181,7 +190,7 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   5
          Left            =   4560
-         TabIndex        =   17
+         TabIndex        =   18
          Top             =   1080
          Width           =   1350
       End
@@ -191,7 +200,7 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   4
          Left            =   11640
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   1080
          Width           =   960
       End
@@ -201,7 +210,7 @@ Begin VB.Form frmMain
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   1080
          Width           =   1320
       End
@@ -392,6 +401,19 @@ If MainTransferStart(Me, moDB) = True Then
 ' Initial checks went well, start with actual data transfer
 
    Call MainCopyData(Me, moDB)
+   
+   If Me.chkAutoIncDBVersion.Value = vbChecked Then
+   ' Autoincrement EWA DB version
+      Dim lVersion As Long
+   
+      lVersion = MainAutoIncDBVersion(moDB)
+      If lVersion = -1 Then
+         MsgBox "Unable to increment version number.", vbExclamation Or vbOKOnly
+      Else
+         MsgBox "Version incremented to " & CStr(lVersion), vbInformation Or vbOKOnly
+      End If
+      
+   End If
    
 End If
 

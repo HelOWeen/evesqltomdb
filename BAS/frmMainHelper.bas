@@ -1165,4 +1165,50 @@ End With
 End Sub
 '==============================================================================
 
+Public Function MainAutoIncDBVersion(ByVal oDB As cDB) As Long
+'------------------------------------------------------------------------------
+'Purpose  : Autoincrements EWA's DB version number
+'
+'Prereq.  : -
+'Parameter: -
+'Returns  : -1 on error, > 0 = new DB version set
+'Note     : -
+'
+'   Author: Knuth Konrad 23.09.2016
+'   Source: -
+'  Changed: -
+'------------------------------------------------------------------------------
+Dim sSQL As String, sTable As String
+Dim lVersion As Long
+Dim rs As ADODB.Recordset
 
+sTable = "banav_tDBInfo"
+
+' *** Safe guards
+' Verify the table's existance
+If Not (DBADOUtil.DBADOTableExistsCN(oDB.CnTarget, sTable) = teTableExists) Then
+   MainAutoIncDBVersion = -1
+   Exit Function
+End If
+   
+sSQL = "SELECT MAX(DBVersion) + 1 AS DBVersionNext FROM " & sTable
+Set rs = New ADODB.Recordset
+Call rs.Open(sSQL, oDB.CnTarget)
+
+If Not (rs.BOF And rs.EOF) Then
+   lVersion = rs.Fields("DBVersionNext").Value
+   sSQL = "UPDATE " & sTable & " SET DBVersion = " & CStr(lVersion) & ";"
+   oDB.CnTarget.Execute sSQL, , adExecuteNoRecords
+Else
+   lVersion = -1
+End If
+
+MainAutoIncDBVersion = lVersion
+
+If Not rs.State = adStateClosed Then
+   rs.Close
+End If
+
+Set rs = Nothing
+
+End Function
