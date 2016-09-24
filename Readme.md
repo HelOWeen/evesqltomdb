@@ -29,14 +29,15 @@ and are in need of an SQL Server: MS provides its Express editions of their [SQL
 While you're there, you should also grab a copy of the SQL Server Management Studio (also free).
 
 As CCP moves more and more data out of the SDE into various other data sources (YAML, SQLite), you might want to grab a copy of Desmont McCallock's 
-_(of EVEMon)_ [SDEExternalsToSql](https://forums.eveonline.com/default.aspx?g=posts&t=444535), which imports the data from all those various data sources back into the SQL 
+_(of EVEMon)_ [EVESDEToSQL][evesdetosql] 
+_([related EVE forum thread](https://forums.eveonline.com/default.aspx?g=posts&t=444535))_, which imports the data from all those various data sources back into the SQL 
 database so that you only have to deal with _one_ data source. While moving away from centralisted data storage _(and forth and back communication from EVE's client to 
 TQ)_, going for client side storage with static data (like ship names) makes sense from CCP's PoV, for most 3rd party tools a single storage location seems to be the better 
 choice.
 
 So my workflow for creating [EWA's](http://eve.basicaware.de/evewalletaware/index.html) database looks like
 - Grab the SDE from CCP's [developer page](Static Database Export), restore the SQL backup included in the SDE to my SQL server installation.
-- Use Desmont's [SDEExternalsToSql](https://forums.eveonline.com/default.aspx?g=posts&t=444535) to import the various YAML files and SQLite DBs which 
+- Use Desmont's [EVESDEToSQL][evesdetosql] to import the various YAML files and SQLite DBs which 
 came with the SDE back into the SQL database.
 - Run EVESqlToMdb to create EWA's database from there.
 
@@ -485,7 +486,8 @@ Added the option _(checkbox)_. To autoincrement EWA' database version informatio
 
 #### Misc.
 
--    
+- Updated documentation    
+Updated this file to reflect the change in name and download location of Desmont's tool.
 
 ---
 #### Bugfix
@@ -629,3 +631,5 @@ table will be copied over to the target database.
 #### Misc.
 
 - __Initial release.__  
+
+[evesdetosql]: https://bitbucket.org/Desmont_McCallock/evesdetosql "Desmont McCallock's EVESDEToSQL"
